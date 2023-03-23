@@ -70,13 +70,10 @@ class NoughtsAndCrosses():
         
 class User():
     def __init__(self,tokenValue):
-        self.name=self.setName()
+        self.name=""
         self.token=tokenValue
-
-
-    def setName(self):
-        name=input("please enter a player name")
-        return name
+    def setName(self,name):
+        self.name=name
     def getName(self):
         return self.name
 

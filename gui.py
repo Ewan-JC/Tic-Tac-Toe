@@ -23,12 +23,27 @@ class GUI():
         self.displayPlayer('O')
         self.board.bind('<Button-1>',self.onButtonClick)
 
-        npcUser=messagebox.askquestion(title="Player v Player or Player v Computer?", message="Are you playing on your own or with another person")
-        print(npcUser)
-        self.game=NoughtsAndCrosses(npcUser)     
-        
-                
+        npcUser=messagebox.askquestion(title="1P/2P?", message="Against AI?")
+        self.game=NoughtsAndCrosses(npcUser)  
+
+        if npcUser=="no":
+            self.user1Name=tk.StringVar()
+            self.user2Name=tk.StringVar()
+            self.users=tk.Toplevel(self.root,height=50,width=200)
+            user1NameLbl=tk.Label(self.users,text = "Player 1 Name: ").grid(row=0,column=0)
+            user1NameEntry=tk.Entry(self.users,textvariable=self.user1Name).grid(row=0,column=1)
+            user2NameLbl=tk.Label(self.users,text = "Player 2 Name: ").grid(row=1,column=0)
+            user2NameEntry=tk.Entry(self.users,textvariable=self.user2Name).grid(row=1,column=1)
+            submit=tk.Button(self.users,text="Submit",command=self.userNameSubmit).grid(row=2,columnspan=2)
+
+               
         self.root.mainloop()
+
+
+    def userNameSubmit(self):
+        self.game.players[0].setName(self.user1Name.get())
+        self.game.players[1].setName(self.user2Name.get())
+        self.users.destroy()
 
     def updateMoveHistory(self):
         self.moveHistoryString+="\n"
@@ -94,9 +109,9 @@ class GUI():
 
     def generateWinBanner(self):
         if self.game.currentPlayer==False:
-            messagebox.showinfo("Game Over!","Winner is {0}".format('O'))
+            messagebox.showinfo("Game Over!","Winner is {0}".format(self.game.players[0].getName()))
         else:
-            messagebox.showinfo("Game Over!","Winner is {0}".format('X'))
+            messagebox.showinfo("Game Over!","Winner is {0}".format(self.game.players[1].getName()))
 
 
 
